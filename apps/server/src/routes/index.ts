@@ -1,7 +1,31 @@
 import { Router } from "express";
-import prisma from "../lib/prisma";
+import { prisma } from "../lib/prisma";
+import authRoutes from "../modules/auth/auth.routes.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorize } from "../middlewares/authorize.js";
 
 const router = Router();
+
+router.get(
+  "/permission-test",
+  authenticate,
+  authorize("dashboard.read"),
+  (_req, res) => {
+    res.json({
+      success: true,
+      message: "Permission berhasil."
+    });
+  }
+);
+
+router.get("/test-auth", authenticate, (req, res) => {
+  res.json({
+    success: true,
+    user: req.user
+  });
+});
+
+router.use("/auth", authRoutes);
 
 router.get("/", async (_req, res) => {
   const users = await prisma.user.findMany();
