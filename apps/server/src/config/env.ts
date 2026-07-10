@@ -1,12 +1,28 @@
 import "dotenv/config";
+import { z } from "zod";
 
-if (!process.env.JWT_SECRET) {
-  throw new Error("JWT_SECRET is missing in .env");
+const envSchema = z.object({
+  PORT: z.coerce.number().default(3000),
+
+  DATABASE_URL: z.string().min(1),
+
+  JWT_SECRET: z
+    .string()
+    .min(32, "JWT_SECRET minimal 32 karakter"),
+
+  JWT_EXPIRES_IN: z.string().default("7d"),
+
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
+});
+
+const parsed = envSchema.safeParse(process.env);
+
+if (!parsed.success) {
+  console.error("❌ Invalid environment variables");
+  console.error(parsed.error.flatten().fieldErrors);
+  process.exit(1);
 }
 
-export const env = {
-  PORT: process.env.PORT || "3000",
-  DATABASE_URL: process.env.DATABASE_URL || "",
-  JWT_SECRET: process.env.JWT_SECRET || "",
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "7d",
-};
+export const env = parsed.data;

@@ -1,33 +1,74 @@
-## v1.0.0-dev (Sprint 1)
+# Changelog
 
-✨ Project Initialization
-- Setup npm workspace monorepo
-- Setup React + Vite + TypeScript
-- Setup Express + Prisma + SQLite
-- Configure Tailwind CSS v4
-- Configure shadcn/ui
+All notable changes to this project will be documented in this file.
 
-🔐 Authentication
-- JWT authentication
-- Password hashing (bcrypt)
-- Login endpoint
-- GET /auth/me
-- Authentication middleware
+---
 
-🛡 Authorization
-- Role Based Access Control (RBAC)
-- Permission middleware
-- Role & Permission repository
-- Permission service
+## v1.0.0-dev — Sprint 1
 
-🌱 Database
-- Prisma schema
-- Database seed
-- Super Admin role
-- Default permissions
-- Admin user seeding
+### Added
 
-🧩 Core
-- Global error handler
-- Request validation (Zod)
-- Express type augmentation
+#### Project Setup
+- Initialized npm workspace monorepo
+- Configured React, Vite, and TypeScript
+- Configured Express, Prisma, and SQLite
+- Configured Tailwind CSS v4
+- Configured shadcn/ui
+
+#### Authentication
+- Implemented JWT authentication
+- Implemented password hashing using bcrypt
+- Added login endpoint
+- Added `GET /api/v1/auth/me` endpoint
+- Added authentication middleware
+
+#### Authorization
+- Implemented Role-Based Access Control (RBAC)
+- Added permission authorization middleware
+- Added role repository
+- Added permission repository
+- Added permission service
+
+#### Database
+- Created Prisma schema
+- Implemented database seed
+- Seeded Super Admin role
+- Seeded default permissions
+- Seeded administrator account
+
+#### Core
+- Added global error handler
+- Added request validation using Zod
+- Added Express type augmentation
+
+---
+
+## v1.1.0-dev — Sprint 2
+
+### Added
+
+#### Core Infrastructure
+- Added standardized API response helper
+- Added environment variable validation
+- Added centralized logging with Pino
+- Added request logging middleware
+- Added pagination helper
+- Added pagination metadata helper
+- Added search helper
+- Added base service abstraction
+
+#### Shared Package
+- Added shared package structure
+- Added shared API response types
+- Added shared pagination types
+- Added shared constants
+- Added shared enums
+- Added shared Zod schemas
+
+### Changed
+
+#### Architecture
+- Refactored environment configuration
+- Improved logging architecture
+- Improved backend project structure
+- Improved code organization for scalability

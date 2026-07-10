@@ -1,9 +1,9 @@
 import { hashPassword, comparePassword } from "./lib/password.js";
-
+import { logger } from './lib/logger.js'
 const password = "admin123";
 
 const hash = await hashPassword(password);
 
-console.log(hash);
+logger.info(hash);
 
-console.log(await comparePassword(password, hash));
+logger.info(await comparePassword(password, hash));

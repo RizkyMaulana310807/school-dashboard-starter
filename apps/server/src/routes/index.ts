@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma";
 import authRoutes from "../modules/auth/auth.routes.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.js";
-
+import userRoutes from "../modules/users/user.routes.js";
 const router = Router();
 
 router.get(
@@ -17,6 +17,8 @@ router.get(
     });
   }
 );
+
+router.use("/users", userRoutes);
 
 router.get("/test-auth", authenticate, (req, res) => {
   res.json({

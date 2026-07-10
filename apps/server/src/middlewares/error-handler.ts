@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../errors/index.js";
+import { logger } from "../lib/logger.js";
 
 export function globalErrorHandler(
   error: Error,
@@ -14,7 +15,7 @@ export function globalErrorHandler(
     });
   }
 
-  console.error(error);
+  logger.error(error);
 
   return res.status(500).json({
     success: false,

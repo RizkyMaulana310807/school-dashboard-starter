@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-
+import { logger } from '../../src/lib/logger'
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Starting seed...");
+  logger.info("🌱 Starting seed...");
 
   // =========================
   // Permissions
@@ -41,7 +41,7 @@ async function main() {
     });
   }
 
-  console.log("✅ Permissions seeded");
+  logger.info("✅ Permissions seeded");
 
   // =========================
   // Role
@@ -58,7 +58,7 @@ async function main() {
     },
   });
 
-  console.log("✅ Role seeded");
+  logger.info("✅ Role seeded");
 
   // =========================
   // Connect Permissions
@@ -79,7 +79,7 @@ async function main() {
     },
   });
 
-  console.log("✅ Role permissions assigned");
+  logger.info("✅ Role permissions assigned");
 
   // =========================
   // Admin User
@@ -107,14 +107,14 @@ async function main() {
     },
   });
 
-  console.log("✅ Admin user seeded");
+  logger.info("✅ Admin user seeded");
 
-  console.log("🎉 Seed completed!");
+  logger.info("🎉 Seed completed!");
 }
 
 main()
   .catch((error) => {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   })
   .finally(async () => {
