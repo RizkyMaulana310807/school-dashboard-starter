@@ -9,6 +9,8 @@ import {
 
 import { NotFoundError } from "../../errors/NotFoundError.js";
 import { ConflictError } from "../../errors/ConflictError.js";
+import { PaginationQuery } from "../../utils/pagination/index.js";
+import { createPaginationMeta } from "../../utils/pagination/PaginatedResponse.js";
 
 export class UserService {
   private repository = new UserRepository();
@@ -24,12 +26,20 @@ export class UserService {
   /**
    * Get all users
    */
-  async findAll() {
-    const users = await this.repository.findMany();
+async findAll(query: PaginationQuery) {
+  const users = await this.repository.findMany(query);
 
-    return users.map((user) => this.sanitizeUser(user));
-  }
+  const total = await this.repository.count(query.search);
 
+  return {
+    data: users.map((user) => this.sanitizeUser(user)),
+    meta: createPaginationMeta(
+      query.page,
+      query.limit,
+      total
+    ),
+  };
+}
   /**
    * Get user by id
    */

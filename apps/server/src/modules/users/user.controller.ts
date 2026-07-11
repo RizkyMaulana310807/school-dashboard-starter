@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { UserService } from "./user.service";
 import { successResponse } from "../../utils/response";
+import { getPagination } from "../../utils/pagination";
+
 type UserParams = {
   id: string;
 };
@@ -10,25 +12,21 @@ export class UserController {
 
   private service = new UserService();
 
-  getAll = async (
-    req: Request<UserParams>,
-    res: Response
-  ) => {
+getAll = async (
+  req: Request,
+  res: Response
+) => {
+  const pagination = getPagination(req);
 
-    const users =
-      await this.service.findAll();
+  const result = await this.service.findAll(pagination);
 
-    return res.status(200).json({
-
-      success: true,
-
-      message: "Users fetched successfully",
-
-      data: users,
-
-    });
-
-  };
+  return res.status(200).json({
+    success: true,
+    message: "Users fetched successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+};
 
   getById = async (
     req: Request<UserParams>,

@@ -3,23 +3,64 @@ import {
   CreateUserDto,
   UpdateUserDto,
 } from "./user.types.js";
+import { PaginationQuery } from "../../utils/pagination/index.js";
 
 export class UserRepository {
-  async findMany() {
+  async findMany(query: PaginationQuery) {
     return prisma.user.findMany({
+      skip: query.skip,
+      take: query.limit,
+
+      where: query.search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: query.search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                email: {
+                  contains: query.search,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          }
+        : undefined,
+
+      orderBy: {
+        [query.sort]: query.order,
+      },
+
       include: {
         roles: true,
       },
-      orderBy: {
-        createdAt: "desc",
-      },
     });
   }
-
-  async count() {
-    return prisma.user.count();
+  async count(search?: string) {
+    return prisma.user.count({
+      where: search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                email: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          }
+        : undefined,
+    });
   }
-
   async findById(id: string) {
     return prisma.user.findUnique({
       where: {

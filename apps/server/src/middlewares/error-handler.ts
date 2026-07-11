@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import { ZodError } from "zod";
+
 import { ApiError } from "../errors/index.js";
 import { logger } from "../lib/logger.js";
+
 
 export function globalErrorHandler(
   error: Error,
@@ -15,6 +18,14 @@ export function globalErrorHandler(
     });
   }
 
+  if (error instanceof ZodError) {
+    return res.status(400).json({
+      success: false,
+      message: "Validation failed",
+      errors: error.flatten().fieldErrors,
+    });
+  }
+  
   logger.error(error);
 
   return res.status(500).json({
