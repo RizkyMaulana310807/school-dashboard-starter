@@ -13,6 +13,21 @@ export function successResponse(
   });
 }
 
+export function successResponseWithMeta(
+  res: Response,
+  data: unknown,
+  meta: unknown,
+  message = "Success",
+  status = 200
+) {
+  return res.status(status).json({
+    success: true,
+    message,
+    data,
+    meta,
+  });
+}
+
 export function errorResponse(
   res: Response,
   message = "Error",

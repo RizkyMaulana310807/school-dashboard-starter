@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 
 import { UserRepository } from "./user.repository.js";
-import { User } from "@prisma/client";
 import {
   CreateUserDto,
   UpdateUserDto,
@@ -11,17 +10,14 @@ import { NotFoundError } from "../../errors/NotFoundError.js";
 import { ConflictError } from "../../errors/ConflictError.js";
 import { PaginationQuery } from "../../utils/pagination/index.js";
 import { createPaginationMeta } from "../../utils/pagination/PaginatedResponse.js";
+import { USER_MESSAGES, AUTH_MESSAGES } from "../../constant/messages.js";
+import {
+  toUserResponse,
+  toUsersResponse,
+} from "./user.mapper.js";
 
 export class UserService {
   private repository = new UserRepository();
-
-  /**
-   * Remove password from response
-   */
-  private sanitizeUser(user: User) {
-    const { password, ...safeUser } = user;
-    return safeUser;
-  }
 
   /**
    * Get all users
@@ -32,7 +28,7 @@ export class UserService {
     const total = await this.repository.count(query.search);
 
     return {
-      data: users.map((user) => this.sanitizeUser(user)),
+      data: toUsersResponse(users),
       meta: createPaginationMeta(
         query.page,
         query.limit,
@@ -47,32 +43,36 @@ export class UserService {
     const user = await this.repository.findById(id);
 
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError(USER_MESSAGES.NOT_FOUND);
     }
 
-    return this.sanitizeUser(user);
+    return toUserResponse(user);
   }
 
   /**
    * Create new user
    */
   async create(data: CreateUserDto) {
-    const existingUser = await this.repository.findByEmail(data.email);
+    const existing = await this.repository.findByEmail(
+      data.email
+    );
 
-    if (existingUser) {
-      throw new ConflictError("Email already exists");
+    if (existing) {
+      throw new ConflictError(USER_MESSAGES.EMAIL_EXISTS);
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+    const hashedPassword = await bcrypt.hash(
+      data.password,
+      10
+    );
 
     const user = await this.repository.create({
       ...data,
       password: hashedPassword,
     });
 
-    return this.sanitizeUser(user);
+    return toUserResponse(user);
   }
-
   /**
    * Update user
    */
@@ -83,14 +83,18 @@ export class UserService {
     const user = await this.repository.findById(id);
 
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError(USER_MESSAGES.NOT_FOUND);
     }
 
     if (data.email) {
-      const existing = await this.repository.findByEmail(data.email);
+      const existing =
+        await this.repository.findByEmailExceptId(
+          data.email,
+          id
+        );
 
-      if (existing && existing.id !== id) {
-        throw new ConflictError("Email already exists");
+      if (existing) {
+        throw new ConflictError(USER_MESSAGES.EMAIL_EXISTS);
       }
     }
 
@@ -102,7 +106,7 @@ export class UserService {
 
     const updatedUser = await this.repository.update(id, updateData);
 
-    return this.sanitizeUser(updatedUser);
+    return toUserResponse(updatedUser);
   }
 
   /**
@@ -114,14 +118,14 @@ export class UserService {
   ) {
     if (id === currentUserId) {
       throw new ConflictError(
-        "You cannot delete your own account"
+        USER_MESSAGES.SELF_DELETE
       );
     }
 
     const user = await this.repository.findById(id);
 
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError(USER_MESSAGES.NOT_FOUND);
     }
 
     await this.repository.delete(id);

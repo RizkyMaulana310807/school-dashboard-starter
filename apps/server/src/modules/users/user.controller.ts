@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
 import { UserService } from "./user.service";
-import { successResponse } from "../../utils/response";
-import { getPagination } from "../../utils/pagination";
+import {
+  successResponse,
+  successResponseWithMeta,
+} from "../../utils/response";import { getPagination } from "../../utils/pagination";
 import { UnauthorizedError } from "../../errors";
+import {
+  USER_MESSAGES,
+  AUTH_MESSAGES,
+} from "../../constant/messages";
 
 type UserParams = {
   id: string;
@@ -21,12 +27,12 @@ export class UserController {
 
     const result = await this.service.findAll(pagination);
 
-    return res.status(200).json({
-      success: true,
-      message: "Users fetched successfully",
-      data: result.data,
-      meta: result.meta,
-    });
+    return successResponseWithMeta(
+      res,
+      result.data,
+      result.meta,
+      USER_MESSAGES.FETCHED
+    );
   };
 
   getById = async (
@@ -39,7 +45,11 @@ export class UserController {
         req.params.id
       );
 
-    return successResponse(res, user, "User fetched successfully");
+    return successResponse(
+      res,
+      user,
+      USER_MESSAGES.FETCHED_ONE
+    );
   };
 
   create = async (
@@ -52,8 +62,12 @@ export class UserController {
         req.body
       );
 
-    return successResponse(res, user, "User created successfully");
-
+    return successResponse(
+      res,
+      user,
+      USER_MESSAGES.CREATED,
+      201
+    );
   };
 
   update = async (
@@ -64,7 +78,11 @@ export class UserController {
       req.params.id,
       req.body
     );
-    return successResponse(res, user, "User updated successfully");
+    return successResponse(
+      res,
+      user,
+      USER_MESSAGES.UPDATED
+    );
   };
 
   delete = async (
@@ -73,7 +91,7 @@ export class UserController {
   ) => {
 
     if (!req.user) {
-      throw new UnauthorizedError("Unauthorized");
+      throw new UnauthorizedError(AUTH_MESSAGES.UNAUTHORIZED);
     }
     
     const result =
@@ -82,10 +100,11 @@ export class UserController {
         req.user.userId
       );
 
-    return res.status(200).json({
-      success: true,
-      message: result.message,
-    });
+    return successResponse(
+      res,
+      null,
+      USER_MESSAGES.DELETED
+    );
 
   };
 }
