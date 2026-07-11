@@ -26,20 +26,20 @@ export class UserService {
   /**
    * Get all users
    */
-async findAll(query: PaginationQuery) {
-  const users = await this.repository.findMany(query);
+  async findAll(query: PaginationQuery) {
+    const users = await this.repository.findMany(query);
 
-  const total = await this.repository.count(query.search);
+    const total = await this.repository.count(query.search);
 
-  return {
-    data: users.map((user) => this.sanitizeUser(user)),
-    meta: createPaginationMeta(
-      query.page,
-      query.limit,
-      total
-    ),
-  };
-}
+    return {
+      data: users.map((user) => this.sanitizeUser(user)),
+      meta: createPaginationMeta(
+        query.page,
+        query.limit,
+        total
+      ),
+    };
+  }
   /**
    * Get user by id
    */
@@ -76,7 +76,10 @@ async findAll(query: PaginationQuery) {
   /**
    * Update user
    */
-  async update(id: string, data: UpdateUserDto) {
+  async update(
+    id: string,
+    data: UpdateUserDto
+  ){
     const user = await this.repository.findById(id);
 
     if (!user) {

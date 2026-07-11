@@ -80,6 +80,21 @@ export class UserRepository {
     });
   }
 
+  async findByEmailExceptId(
+    email: string,
+    id: string
+  ) {
+    return prisma.user.findFirst({
+      where: {
+        email,
+        NOT: {
+          id,
+        },
+      },
+    });
+  }
+  
+
   async create(data: CreateUserDto) {
     return prisma.user.create({
       data: {
@@ -102,7 +117,12 @@ export class UserRepository {
 
   async update(
     id: string,
-    data: UpdateUserDto
+    data: {
+      name?: string;
+      email?: string;
+      password?: string;
+      roleIds?: string[];
+    }
   ) {
     return prisma.user.update({
       where: {
@@ -110,15 +130,17 @@ export class UserRepository {
       },
 
       data: {
-        ...data,
+        name: data.name,
+        email: data.email,
+        password: data.password,
 
-        ...(data.roleIds && {
-          roles: {
-            set: data.roleIds.map((id) => ({
-              id,
-            })),
-          },
-        }),
+        roles: data.roleIds
+          ? {
+              set: data.roleIds.map((id) => ({
+                id,
+              })),
+            }
+          : undefined,
       },
 
       include: {
@@ -126,7 +148,7 @@ export class UserRepository {
       },
     });
   }
-
+  
   async delete(id: string) {
     return prisma.user.delete({
       where: {

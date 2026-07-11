@@ -12,21 +12,21 @@ export class UserController {
 
   private service = new UserService();
 
-getAll = async (
-  req: Request,
-  res: Response
-) => {
-  const pagination = getPagination(req);
+  getAll = async (
+    req: Request,
+    res: Response
+  ) => {
+    const pagination = getPagination(req);
 
-  const result = await this.service.findAll(pagination);
+    const result = await this.service.findAll(pagination);
 
-  return res.status(200).json({
-    success: true,
-    message: "Users fetched successfully",
-    data: result.data,
-    meta: result.meta,
-  });
-};
+    return res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      data: result.data,
+      meta: result.meta,
+    });
+  };
 
   getById = async (
     req: Request<UserParams>,
@@ -59,18 +59,11 @@ getAll = async (
     req: Request<UserParams>,
     res: Response
   ) => {
-
-    const user =
-      await this.service.update(
-
-        req.params.id,
-
-        req.body
-
-      );
-
+    const user = await this.service.update(
+      req.params.id,
+      req.body
+    );
     return successResponse(res, user, "User updated successfully");
-
   };
 
   delete = async (
