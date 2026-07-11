@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserService } from "./user.service";
 import { successResponse } from "../../utils/response";
 import { getPagination } from "../../utils/pagination";
+import { UnauthorizedError } from "../../errors";
 
 type UserParams = {
   id: string;
@@ -71,19 +72,20 @@ export class UserController {
     res: Response
   ) => {
 
+    if (!req.user) {
+      throw new UnauthorizedError("Unauthorized");
+    }
+    
     const result =
       await this.service.delete(
-        req.params.id
+        req.params.id,
+        req.user.userId
       );
 
     return res.status(200).json({
-
       success: true,
-
       message: result.message,
-
     });
 
   };
-
 }

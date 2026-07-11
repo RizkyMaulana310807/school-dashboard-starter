@@ -108,7 +108,16 @@ export class UserService {
   /**
    * Delete user
    */
-  async delete(id: string) {
+  async delete(
+    id: string,
+    currentUserId: string
+  ) {
+    if (id === currentUserId) {
+      throw new ConflictError(
+        "You cannot delete your own account"
+      );
+    }
+
     const user = await this.repository.findById(id);
 
     if (!user) {
