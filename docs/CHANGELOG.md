@@ -113,3 +113,35 @@ All notable changes to this project will be documented in this file.
 - Improved request validation
 - Improved authorization checks
 - Removed password from API responses
+
+---
+
+## v1.3.0-dev — Sprint 4
+
+### Added
+
+#### Class Management
+
+- Added SchoolClass Prisma model
+- Implemented Class Repository
+- Implemented Class Service
+- Added Class Controller
+- Added Class Routes
+- Added Zod validation schemas
+- Added Class response mapper
+- Added CRUD endpoints
+- Added pagination support
+- Added search support
+
+### Security
+
+- Added RBAC authorization for class endpoints
+- Added authentication protection
+
+### Testing
+
+- Validated CRUD operations
+- Tested pagination and search
+- Tested request validation
+- Tested duplicate class handling
+- Tested authorization and authentication
