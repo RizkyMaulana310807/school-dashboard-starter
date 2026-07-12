@@ -27,6 +27,12 @@ async function main() {
     "permission.create",
     "permission.update",
     "permission.delete",
+
+    "class.read",
+    "class.create",
+    "class.update",
+    "class.delete",
+
   ];
 
   for (const permission of permissions) {

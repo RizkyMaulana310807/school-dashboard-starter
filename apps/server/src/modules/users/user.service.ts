@@ -10,7 +10,7 @@ import { NotFoundError } from "../../errors/NotFoundError.js";
 import { ConflictError } from "../../errors/ConflictError.js";
 import { PaginationQuery } from "../../utils/pagination/index.js";
 import { createPaginationMeta } from "../../utils/pagination/PaginatedResponse.js";
-import { USER_MESSAGES, AUTH_MESSAGES } from "../../constant/messages.js";
+import { USER_MESSAGES } from "../../constant/messages.js";
 import {
   toUserResponse,
   toUsersResponse,

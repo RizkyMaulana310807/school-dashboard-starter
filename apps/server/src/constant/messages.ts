@@ -21,3 +21,16 @@ export const AUTH_MESSAGES = {
 
   FORBIDDEN: "Anda tidak memiliki permission.",
 };
+
+export const CLASS_MESSAGES = {
+  FETCHED: "Classes fetched successfully",
+  FETCHED_ONE: "Class fetched successfully",
+
+  CREATED: "Class created successfully",
+  UPDATED: "Class updated successfully",
+  DELETED: "Class deleted successfully",
+
+  NOT_FOUND: "Class not found",
+
+  NAME_EXISTS: "Class name already exists",
+};

@@ -72,3 +72,44 @@ All notable changes to this project will be documented in this file.
 - Improved logging architecture
 - Improved backend project structure
 - Improved code organization for scalability
+
+---
+
+## v1.2.0-dev — Sprint 3
+
+### Added
+
+#### User Management
+- Implemented complete User module
+- Added User repository
+- Added User service
+- Added User controller
+- Added User routes
+- Added User DTOs and type definitions
+- Added User mapper
+- Added User validation using Zod
+
+#### User Features
+- Added user listing endpoint
+- Added user detail endpoint
+- Added user creation endpoint
+- Added user update endpoint
+- Added user deletion endpoint
+- Added pagination, searching, and sorting support
+
+### Changed
+
+#### Architecture
+- Refactored User module using Repository pattern
+- Centralized response handling
+- Centralized application messages
+- Improved service layer organization
+- Improved controller response consistency
+- Improved password handling abstraction
+
+### Security
+- Prevented duplicate email addresses
+- Prevented self-account deletion
+- Improved request validation
+- Improved authorization checks
+- Removed password from API responses

@@ -4,6 +4,8 @@ import authRoutes from "../modules/auth/auth.routes.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.js";
 import userRoutes from "../modules/users/user.routes.js";
+import classRoutes from "../modules/classes/class.routes.js";
+
 const router = Router();
 
 router.get(
@@ -59,6 +61,6 @@ router.get("/health", async (_req, res) => {
     });
   }
 });
-
+router.use("/classes", classRoutes);
 
 export default router;

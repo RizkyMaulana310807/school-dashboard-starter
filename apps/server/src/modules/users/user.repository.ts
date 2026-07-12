@@ -1,7 +1,6 @@
 import { prisma } from "../../lib/prisma.js";
 import {
   CreateUserDto,
-  UpdateUserDto,
 } from "./user.types.js";
 import { PaginationQuery } from "../../utils/pagination/index.js";
 
