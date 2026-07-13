@@ -1,7 +1,5 @@
-import { prisma } from "../../lib/prisma.js";
-import {
-  CreateUserDto,
-} from "./user.types.js";
+import { prisma } from "../../lib/prisma";
+import { CreateUserDto } from "./user.types.js";
 import { PaginationQuery } from "../../utils/pagination/index.js";
 
 export class UserRepository {
@@ -38,6 +36,7 @@ export class UserRepository {
       },
     });
   }
+
   async count(search?: string) {
     return prisma.user.count({
       where: search
@@ -60,6 +59,7 @@ export class UserRepository {
         : undefined,
     });
   }
+
   async findById(id: string) {
     return prisma.user.findUnique({
       where: {
@@ -79,10 +79,7 @@ export class UserRepository {
     });
   }
 
-  async findByEmailExceptId(
-    email: string,
-    id: string
-  ) {
+  async findByEmailExceptId(email: string, id: string) {
     return prisma.user.findFirst({
       where: {
         email,
@@ -92,7 +89,6 @@ export class UserRepository {
       },
     });
   }
-  
 
   async create(data: CreateUserDto) {
     return prisma.user.create({
@@ -121,7 +117,7 @@ export class UserRepository {
       email?: string;
       password?: string;
       roleIds?: string[];
-    }
+    },
   ) {
     return prisma.user.update({
       where: {
@@ -147,7 +143,7 @@ export class UserRepository {
       },
     });
   }
-  
+
   async delete(id: string) {
     return prisma.user.delete({
       where: {

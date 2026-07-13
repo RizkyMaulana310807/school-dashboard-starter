@@ -34,3 +34,11 @@ export const CLASS_MESSAGES = {
 
   NAME_EXISTS: "Class name already exists",
 };
+
+export const STUDENT_MESSAGES = {
+  NOT_FOUND: "Student not found",
+  FETCHED: "Students fetched successfully",
+
+  DELETED: "Student deleted successfully",
+
+}

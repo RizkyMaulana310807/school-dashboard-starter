@@ -34,11 +34,8 @@ export const userQuerySchema = z.object({
   order: z.enum(["asc", "desc"]).default("desc"),
 });
 
-export type CreateUserInput =
-  z.infer<typeof createUserSchema>;
+export type CreateUserInput = z.infer<typeof createUserSchema>;
 
-export type UpdateUserInput =
-  z.infer<typeof updateUserSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 
-export type UserQueryInput =
-  z.infer<typeof userQuerySchema>;
+export type UserQueryInput = z.infer<typeof userQuerySchema>;
