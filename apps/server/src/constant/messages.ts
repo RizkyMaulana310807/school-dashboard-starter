@@ -38,7 +38,10 @@ export const CLASS_MESSAGES = {
 export const STUDENT_MESSAGES = {
   NOT_FOUND: "Student not found",
   FETCHED: "Students fetched successfully",
+  FETCHED_ONE: "Student fetched successfully",
 
+  CREATED: "Student created successfully",
+  UPDATED: "Student updated successfully",
   DELETED: "Student deleted successfully",
 
 }

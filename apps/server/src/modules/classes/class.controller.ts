@@ -1,114 +1,63 @@
-  import { Request, Response } from "express";
+import { Request, Response } from "express";
 
-  import { ClassService } from "./class.service";
+import { ClassService } from "./class.service";
 
-  import { successResponse, successResponseWithMeta } from "../../utils/response";
-  import { getPagination } from "../../utils/pagination/index";
+import { successResponse, successResponseWithMeta } from "../../utils/response";
+import { getPagination } from "../../utils/pagination/index";
 
-  import { CLASS_MESSAGES } from "../../constant/messages";
+import { CLASS_MESSAGES } from "../../constant/messages";
 
-  type ClassParams = {
-    id: string;
+type ClassParams = {
+  id: string;
+};
+
+export class ClassController {
+  private service = new ClassService();
+
+  /**
+   * GET /classes
+   */
+  getAll = async (req: Request, res: Response) => {
+    const pagination = getPagination(req);
+
+    const result = await this.service.findAll(pagination);
+
+    return successResponseWithMeta(res, result.data, result.meta, CLASS_MESSAGES.FETCHED);
   };
 
-  export class ClassController {
-    private service = new ClassService();
+  /**
+   * GET /classes/:id
+   */
+  getById = async (req: Request<ClassParams>, res: Response) => {
+    const schoolClass = await this.service.findById(req.params.id);
 
-    /**
-     * GET /classes
-     */
-    getAll = async (
-      req: Request,
-      res: Response
-    ) => {
-      const pagination = getPagination(req);
-
-      const result =
-        await this.service.findAll(pagination);
-
-      return successResponseWithMeta(
-          res,
-          result.data,
-          result.meta,
-          CLASS_MESSAGES.FETCHED
-      );
+    return successResponse(res, schoolClass, CLASS_MESSAGES.FETCHED_ONE);
   };
 
-    /**
-     * GET /classes/:id
-     */
-    getById = async (
-      req: Request<ClassParams>,
-      res: Response
-    ) => {
-      const schoolClass =
-        await this.service.findById(
-          req.params.id
-        );
+  /**
+   * POST /classes
+   */
+  create = async (req: Request, res: Response) => {
+    const schoolClass = await this.service.create(req.body);
 
-      return successResponse(
-        res,
-        schoolClass,
-        CLASS_MESSAGES.FETCHED_ONE
-      );
-    };
+    return successResponse(res, schoolClass, CLASS_MESSAGES.CREATED, 201);
+  };
 
-    /**
-     * POST /classes
-     */
-    create = async (
-      req: Request,
-      res: Response
-    ) => {
-      const schoolClass =
-        await this.service.create(
-          req.body
-        );
+  /**
+   * PATCH /classes/:id
+   */
+  update = async (req: Request<ClassParams>, res: Response) => {
+    const schoolClass = await this.service.update(req.params.id, req.body);
 
-      return successResponse(
-        res,
-        schoolClass,
-        CLASS_MESSAGES.CREATED,
-        201
-      );
-    };
+    return successResponse(res, schoolClass, CLASS_MESSAGES.UPDATED);
+  };
 
-    /**
-     * PATCH /classes/:id
-     */
-    update = async (
-      req: Request<ClassParams>,
-      res: Response
-    ) => {
-      const schoolClass =
-        await this.service.update(
-          req.params.id,
-          req.body
-        );
+  /**
+   * DELETE /classes/:id
+   */
+  delete = async (req: Request<ClassParams>, res: Response) => {
+    const result = await this.service.delete(req.params.id);
 
-      return successResponse(
-        res,
-        schoolClass,
-        CLASS_MESSAGES.UPDATED
-      );
-    };
-
-    /**
-     * DELETE /classes/:id
-     */
-    delete = async (
-      req: Request<ClassParams>,
-      res: Response
-    ) => {
-      const result =
-        await this.service.delete(
-          req.params.id
-        );
-
-      return successResponse(
-        res,
-        null,
-        result.message
-      );
-    };
-  }
+    return successResponse(res, null, result.message);
+  };
+}
