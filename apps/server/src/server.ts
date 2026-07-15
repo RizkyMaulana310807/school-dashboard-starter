@@ -5,7 +5,5 @@ import { logger } from "./lib/logger";
 const PORT = env.PORT || 3000;
 
 app.listen(PORT, () => {
-  logger.info(
-    `🚀 API running at http://localhost:${env.PORT}`
-  );
+  logger.info(`🚀 API running at http://localhost:${env.PORT}`);
 });

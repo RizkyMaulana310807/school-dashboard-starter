@@ -1,8 +1,5 @@
-import {
-  generateAccessToken,
-  verifyAccessToken,
-} from "./lib/jwt.js";
-import { logger } from "./lib/logger.js"
+import { generateAccessToken, verifyAccessToken } from "./lib/jwt.js";
+import { logger } from "./lib/logger.js";
 
 const token = generateAccessToken({
   userId: "123",

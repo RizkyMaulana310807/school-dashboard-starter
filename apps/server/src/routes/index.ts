@@ -8,24 +8,19 @@ import classRoutes from "../modules/classes/class.routes.js";
 
 const router = Router();
 
-router.get(
-  "/permission-test",
-  authenticate,
-  authorize("dashboard.read"),
-  (_req, res) => {
-    res.json({
-      success: true,
-      message: "Permission berhasil."
-    });
-  }
-);
+router.get("/permission-test", authenticate, authorize("dashboard.read"), (_req, res) => {
+  res.json({
+    success: true,
+    message: "Permission berhasil.",
+  });
+});
 
 router.use("/users", userRoutes);
 
 router.get("/test-auth", authenticate, (req, res) => {
   res.json({
     success: true,
-    user: req.user
+    user: req.user,
   });
 });
 

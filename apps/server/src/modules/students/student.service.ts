@@ -20,32 +20,31 @@ export class StudentService {
       meta: createPaginationMeta(query.page, query.limit, total),
     };
   }
-  async findById(id: string){
+  async findById(id: string) {
     const student = await this.repository.findById(id);
-    if(!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
+    if (!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
 
     return toStudentResponse(student);
   }
 
-  async create(data: CreateStudentDto){
+  async create(data: CreateStudentDto) {
     const student = await this.repository.create(data);
     return toStudentResponse(student);
   }
 
-  async update(id: string, data: UpdateStudentDto){
+  async update(id: string, data: UpdateStudentDto) {
     const student = await this.repository.findById(id);
-    if(!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
+    if (!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
     const updated = await this.repository.update(id, data);
     return toStudentResponse(updated);
   }
 
-  async delete(id: string){
+  async delete(id: string) {
     const student = await this.repository.findById(id);
-    if(!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
+    if (!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
     await this.repository.delete(id);
     return {
-        message: STUDENT_MESSAGES.DELETED
+      message: STUDENT_MESSAGES.DELETED,
     };
   }
-  
 }

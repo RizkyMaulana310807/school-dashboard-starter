@@ -11,26 +11,17 @@ export class AuthService {
     const user = await this.repository.findByEmailWithRoles(email);
 
     if (!user) {
-      throw new UnauthorizedError(
-          "Email atau password salah"
-      );
+      throw new UnauthorizedError("Email atau password salah");
     }
 
-    const validPassword = await comparePassword(
-      password,
-      user.password
-    );
+    const validPassword = await comparePassword(password, user.password);
 
     if (!validPassword) {
-      throw new UnauthorizedError(
-          "Email atau password salah"
-      );
+      throw new UnauthorizedError("Email atau password salah");
     }
 
     if (!user.isActive) {
-      throw new UnauthorizedError(
-          "Akun telah dinonaktifkan"
-      );
+      throw new UnauthorizedError("Akun telah dinonaktifkan");
     }
 
     const accessToken = generateAccessToken({
@@ -50,18 +41,17 @@ export class AuthService {
   }
 
   async me(userId: string) {
-      const user = await this.repository.findById(userId);
+    const user = await this.repository.findById(userId);
 
-      if (!user) {
-        throw new NotFoundError("User tidak ditemukan");
-      }
+    if (!user) {
+      throw new NotFoundError("User tidak ditemukan");
+    }
 
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        roles: user.roles,
-      };
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      roles: user.roles,
+    };
   }
-  
 }

@@ -7,29 +7,16 @@ export class AuthController {
   private service = new AuthService();
 
   login = async (req: Request, res: Response) => {
-
     const { email, password } = req.body;
 
-    const result = await this.service.login(
-      email,
-      password
-    );
+    const result = await this.service.login(email, password);
 
-    return success(
-      res,
-      result,
-      "Login berhasil"
-    );
-  }
+    return success(res, result, "Login berhasil");
+  };
 
   me = async (req: Request, res: Response) => {
     const result = await this.service.me(req.user!.userId);
 
-    return success(
-      res,
-      result,
-      "Profil berhasil diambil"
-    );
+    return success(res, result, "Profil berhasil diambil");
   };
-  
 }

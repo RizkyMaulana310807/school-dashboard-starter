@@ -1,12 +1,11 @@
 import { Router } from "express";
 
-import { ClassController } from "./class.controller.js";
+import { ClassController } from "./class.controller";
+import { createClassSchema, updateClassSchema } from "./class.validation";
 
-import { createClassSchema, updateClassSchema } from "./class.validation.js";
-
-import { authenticate } from "../../middlewares/auth.middleware.js";
-import { authorize } from "../../middlewares/authorize.js";
-import { validate } from "../../middlewares/validate.js";
+import { authenticate } from "../../middlewares/auth.middleware";
+import { authorize } from "../../middlewares/authorize";
+import { validate } from "../../middlewares/validate";
 
 const router = Router();
 

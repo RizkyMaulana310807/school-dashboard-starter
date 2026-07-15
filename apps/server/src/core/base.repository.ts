@@ -8,9 +8,7 @@ export interface SortOptions {
   order?: "asc" | "desc";
 }
 
-export interface QueryOptions
-  extends PaginationOptions,
-    SortOptions {}
+export interface QueryOptions extends PaginationOptions, SortOptions {}
 
 export abstract class BaseRepository {
   protected constructor() {}

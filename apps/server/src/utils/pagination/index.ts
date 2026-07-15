@@ -9,36 +9,18 @@ export interface PaginationQuery {
   order: "asc" | "desc";
 }
 
-export function getPagination(
-  req: Request
-): PaginationQuery {
+export function getPagination(req: Request): PaginationQuery {
+  const page = Math.max(Number(req.query.page) || 1, 1);
 
-  const page = Math.max(
-    Number(req.query.page) || 1,
-    1
-  );
-
-  const limit = Math.min(
-    Math.max(Number(req.query.limit) || 10, 1),
-    100
-  );
+  const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 100);
 
   const skip = (page - 1) * limit;
 
-  const search =
-    typeof req.query.search === "string"
-      ? req.query.search
-      : undefined;
+  const search = typeof req.query.search === "string" ? req.query.search : undefined;
 
-  const sort =
-    typeof req.query.sort === "string"
-      ? req.query.sort
-      : "createdAt";
+  const sort = typeof req.query.sort === "string" ? req.query.sort : "createdAt";
 
-  const order =
-    req.query.order === "asc"
-      ? "asc"
-      : "desc";
+  const order = req.query.order === "asc" ? "asc" : "desc";
 
   return {
     page,

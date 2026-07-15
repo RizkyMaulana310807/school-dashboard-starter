@@ -1,11 +1,6 @@
 import { Response } from "express";
 
-export function successResponse(
-  res: Response,
-  data: unknown,
-  message = "Success",
-  status = 200
-) {
+export function successResponse(res: Response, data: unknown, message = "Success", status = 200) {
   return res.status(status).json({
     success: true,
     message,
@@ -18,7 +13,7 @@ export function successResponseWithMeta(
   data: unknown,
   meta: unknown,
   message = "Success",
-  status = 200
+  status = 200,
 ) {
   return res.status(status).json({
     success: true,
@@ -28,11 +23,7 @@ export function successResponseWithMeta(
   });
 }
 
-export function errorResponse(
-  res: Response,
-  message = "Error",
-  status = 500
-) {
+export function errorResponse(res: Response, message = "Error", status = 500) {
   return res.status(status).json({
     success: false,
     message,

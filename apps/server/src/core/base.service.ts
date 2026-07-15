@@ -15,11 +15,7 @@ export abstract class BaseService {
     };
   }
 
-  protected buildMeta(
-    page: number,
-    limit: number,
-    total: number
-  ) {
+  protected buildMeta(page: number, limit: number, total: number) {
     return {
       page,
       limit,

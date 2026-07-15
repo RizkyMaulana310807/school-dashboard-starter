@@ -1,20 +1,14 @@
 import bcrypt from "bcrypt";
 
 import { UserRepository } from "./user.repository.js";
-import {
-  CreateUserDto,
-  UpdateUserDto,
-} from "./user.types.js";
+import { CreateUserDto, UpdateUserDto } from "./user.types.js";
 
 import { NotFoundError } from "../../errors/NotFoundError.js";
 import { ConflictError } from "../../errors/ConflictError.js";
 import { PaginationQuery } from "../../utils/pagination/index.js";
 import { createPaginationMeta } from "../../utils/pagination/PaginatedResponse.js";
 import { USER_MESSAGES } from "../../constant/messages.js";
-import {
-  toUserResponse,
-  toUsersResponse,
-} from "./user.mapper.js";
+import { toUserResponse, toUsersResponse } from "./user.mapper.js";
 
 export class UserService {
   private repository = new UserRepository();
@@ -29,11 +23,7 @@ export class UserService {
 
     return {
       data: toUsersResponse(users),
-      meta: createPaginationMeta(
-        query.page,
-        query.limit,
-        total
-      ),
+      meta: createPaginationMeta(query.page, query.limit, total),
     };
   }
   /**
@@ -53,18 +43,13 @@ export class UserService {
    * Create new user
    */
   async create(data: CreateUserDto) {
-    const existing = await this.repository.findByEmail(
-      data.email
-    );
+    const existing = await this.repository.findByEmail(data.email);
 
     if (existing) {
       throw new ConflictError(USER_MESSAGES.EMAIL_EXISTS);
     }
 
-    const hashedPassword = await bcrypt.hash(
-      data.password,
-      10
-    );
+    const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const user = await this.repository.create({
       ...data,
@@ -76,10 +61,7 @@ export class UserService {
   /**
    * Update user
    */
-  async update(
-    id: string,
-    data: UpdateUserDto
-  ){
+  async update(id: string, data: UpdateUserDto) {
     const user = await this.repository.findById(id);
 
     if (!user) {
@@ -87,11 +69,7 @@ export class UserService {
     }
 
     if (data.email) {
-      const existing =
-        await this.repository.findByEmailExceptId(
-          data.email,
-          id
-        );
+      const existing = await this.repository.findByEmailExceptId(data.email, id);
 
       if (existing) {
         throw new ConflictError(USER_MESSAGES.EMAIL_EXISTS);
@@ -112,14 +90,9 @@ export class UserService {
   /**
    * Delete user
    */
-  async delete(
-    id: string,
-    currentUserId: string
-  ) {
+  async delete(id: string, currentUserId: string) {
     if (id === currentUserId) {
-      throw new ConflictError(
-        USER_MESSAGES.SELF_DELETE
-      );
+      throw new ConflictError(USER_MESSAGES.SELF_DELETE);
     }
 
     const user = await this.repository.findById(id);

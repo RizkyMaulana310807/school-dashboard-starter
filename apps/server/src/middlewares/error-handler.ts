@@ -4,12 +4,11 @@ import { ZodError } from "zod";
 import { ApiError } from "../errors/index.js";
 import { logger } from "../lib/logger.js";
 
-
 export function globalErrorHandler(
   error: Error,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) {
   if (error instanceof ApiError) {
     return res.status(error.statusCode).json({
@@ -25,7 +24,7 @@ export function globalErrorHandler(
       errors: error.flatten().fieldErrors,
     });
   }
-  
+
   logger.error(error);
 
   return res.status(500).json({

@@ -50,18 +50,13 @@ export class ClassRepository {
     });
   }
 
-  async create(
-    data: Prisma.SchoolClassCreateInput
-  ) {
+  async create(data: Prisma.SchoolClassCreateInput) {
     return prisma.schoolClass.create({
       data,
     });
   }
 
-  async update(
-    id: string,
-    data: Prisma.SchoolClassUpdateInput
-  ) {
+  async update(id: string, data: Prisma.SchoolClassUpdateInput) {
     return prisma.schoolClass.update({
       where: {
         id,

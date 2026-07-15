@@ -1,8 +1,4 @@
-export function createPaginationMeta(
-  page: number,
-  limit: number,
-  total: number
-) {
+export function createPaginationMeta(page: number, limit: number, total: number) {
   return {
     page,
     limit,

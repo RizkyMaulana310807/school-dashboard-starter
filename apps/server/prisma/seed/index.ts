@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { logger } from '../../src/lib/logger'
+import { logger } from "../../src/lib/logger";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -32,6 +32,11 @@ async function main() {
     "class.create",
     "class.update",
     "class.delete",
+
+    "student.read",
+    "student.create",
+    "student.update",
+    "student.delete",
 
   ];
 

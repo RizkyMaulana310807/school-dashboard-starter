@@ -2,8 +2,8 @@ export interface CreateStudentDto {
   name: string;
   gender: "MALE" | "FEMALE";
   birthDate?: string | Date; // Bisa menerima string ISO ("2006-08-15") atau objek Date
-  userId: string;            // ID dari tabel User yang sudah dibuat sebelumnya
-  classIds?: string[];       // Opsional: Langsung menghubungkan ke kelas saat dibuat
+  userId: string; // ID dari tabel User yang sudah dibuat sebelumnya
+  classIds?: string[]; // Opsional: Langsung menghubungkan ke kelas saat dibuat
 }
 
 export interface UpdateStudentDto {
@@ -28,7 +28,7 @@ export interface StudentResponseDto {
   name: string;
   gender: "MALE" | "FEMALE";
   birthDate: Date | null;
-  
+
   // Membawa data user terkait tanpa password
   user: {
     id: string;

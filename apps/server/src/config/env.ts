@@ -6,15 +6,11 @@ const envSchema = z.object({
 
   DATABASE_URL: z.string().min(1),
 
-  JWT_SECRET: z
-    .string()
-    .min(32, "JWT_SECRET minimal 32 karakter"),
+  JWT_SECRET: z.string().min(32, "JWT_SECRET minimal 32 karakter"),
 
   JWT_EXPIRES_IN: z.string().default("7d"),
 
-  NODE_ENV: z
-    .enum(["development", "production", "test"])
-    .default("development"),
+  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
 });
 
 const parsed = envSchema.safeParse(process.env);

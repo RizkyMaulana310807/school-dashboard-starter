@@ -1,65 +1,27 @@
 import { z } from "zod";
 
 export const createClassSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(3)
-    .max(100),
+  name: z.string().trim().min(3).max(100),
 
-  description: z
-    .string()
-    .trim()
-    .max(255)
-    .optional(),
+  description: z.string().trim().max(255).optional(),
 
-  grade: z
-    .number()
-    .int()
-    .min(1)
-    .max(12),
+  grade: z.number().int().min(1).max(12),
 
-  academicYear: z
-    .string()
-    .trim()
-    .max(20)
-    .optional(),
+  academicYear: z.string().trim().max(20).optional(),
 
-  isActive: z
-    .boolean()
-    .optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const updateClassSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(3)
-    .max(100)
-    .optional(),
+  name: z.string().trim().min(3).max(100).optional(),
 
-  description: z
-    .string()
-    .trim()
-    .max(255)
-    .optional(),
+  description: z.string().trim().max(255).optional(),
 
-  grade: z
-    .number()
-    .int()
-    .min(1)
-    .max(12)
-    .optional(),
+  grade: z.number().int().min(1).max(12).optional(),
 
-  academicYear: z
-    .string()
-    .trim()
-    .max(20)
-    .optional(),
+  academicYear: z.string().trim().max(20).optional(),
 
-  isActive: z
-    .boolean()
-    .optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const classQuerySchema = z.object({
@@ -71,16 +33,11 @@ export const classQuerySchema = z.object({
 
   sort: z.string().default("createdAt"),
 
-  order: z
-    .enum(["asc", "desc"])
-    .default("desc"),
+  order: z.enum(["asc", "desc"]).default("desc"),
 });
 
-export type CreateClassInput =
-  z.infer<typeof createClassSchema>;
+export type CreateClassInput = z.infer<typeof createClassSchema>;
 
-export type UpdateClassInput =
-  z.infer<typeof updateClassSchema>;
+export type UpdateClassInput = z.infer<typeof updateClassSchema>;
 
-export type ClassQueryInput =
-  z.infer<typeof classQuerySchema>;
+export type ClassQueryInput = z.infer<typeof classQuerySchema>;
