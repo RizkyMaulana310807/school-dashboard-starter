@@ -15,13 +15,12 @@ export class ClassService {
   private repository = new ClassRepository();
 
   async findAll(query: PaginationQuery) {
-    const classes = await this.repository.findMany(query);
+    const schoolClass = await this.repository.findMany(query);
 
     const total = await this.repository.count(query.search);
 
     return {
-      data: toClassesResponse(classes),
-
+      data: toClassesResponse(schoolClass),
       meta: createPaginationMeta(query.page, query.limit, total),
     };
   }

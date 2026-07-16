@@ -9,7 +9,7 @@ export const createStudentSchema = z.object({
 
   userId: z.string().min(1, "User ID wajib diisi"),
 
-  classIds: z.array(z.string()).min(1, "Pilih minimal satu kelas"),
+  schoolClassId: z.string().min(1, "Kelas wajib dipilih"),
 });
 
 export const updateStudentSchema = z.object({
@@ -19,7 +19,7 @@ export const updateStudentSchema = z.object({
 
   birthDate: z.coerce.date().optional(),
 
-  classIds: z.array(z.string()).optional(),
+  schoolClassId: z.string().min(1).optional(),
 });
 
 export const studentQuerySchema = z.object({

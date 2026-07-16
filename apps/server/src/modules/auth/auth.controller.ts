@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import { AuthService } from "./auth.service.js";
-import { successResponse } from "../../utils/response.js";
 import { success } from "../../utils/response/index.js";
+import { AuthRepository } from "./auth.repository.js";
+import { StudentRepository } from "../students/student.repository.js";
 
 export class AuthController {
-  private service = new AuthService();
+  private authRepository = new AuthRepository();
+  private studentRepository = new StudentRepository();
 
+  private service = new AuthService(this.authRepository, this.studentRepository);
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 

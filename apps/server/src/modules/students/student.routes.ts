@@ -6,7 +6,6 @@ import { createStudentSchema, updateStudentSchema } from "./student.validation";
 import { authenticate } from "../../middlewares/auth.middleware";
 import { authorize } from "../../middlewares/authorize";
 import { validate } from "../../middlewares/validate";
-import { updateUserSchema } from "../users/user.validation";
 
 const router = Router();
 

@@ -4,6 +4,6 @@ export function toClassResponse(schoolClass: SchoolClass) {
   return schoolClass;
 }
 
-export function toClassesResponse(classes: SchoolClass[]) {
-  return classes.map(toClassResponse);
+export function toClassesResponse(schoolClass: SchoolClass[]) {
+  return schoolClass.map(toClassResponse);
 }

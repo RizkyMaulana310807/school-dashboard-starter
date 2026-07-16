@@ -15,7 +15,7 @@ export class ClassController {
   private service = new ClassService();
 
   /**
-   * GET /classes
+   * GET /class
    */
   getAll = async (req: Request, res: Response) => {
     const pagination = getPagination(req);
@@ -26,7 +26,7 @@ export class ClassController {
   };
 
   /**
-   * GET /classes/:id
+   * GET /class/:id
    */
   getById = async (req: Request<ClassParams>, res: Response) => {
     const schoolClass = await this.service.findById(req.params.id);
@@ -35,7 +35,7 @@ export class ClassController {
   };
 
   /**
-   * POST /classes
+   * POST /class
    */
   create = async (req: Request, res: Response) => {
     const schoolClass = await this.service.create(req.body);
@@ -44,7 +44,7 @@ export class ClassController {
   };
 
   /**
-   * PATCH /classes/:id
+   * PATCH /class/:id
    */
   update = async (req: Request<ClassParams>, res: Response) => {
     const schoolClass = await this.service.update(req.params.id, req.body);
@@ -53,7 +53,7 @@ export class ClassController {
   };
 
   /**
-   * DELETE /classes/:id
+   * DELETE /class/:id
    */
   delete = async (req: Request<ClassParams>, res: Response) => {
     const result = await this.service.delete(req.params.id);

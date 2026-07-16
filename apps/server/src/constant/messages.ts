@@ -23,7 +23,7 @@ export const AUTH_MESSAGES = {
 };
 
 export const CLASS_MESSAGES = {
-  FETCHED: "Classes fetched successfully",
+  FETCHED: "class fetched successfully",
   FETCHED_ONE: "Class fetched successfully",
 
   CREATED: "Class created successfully",

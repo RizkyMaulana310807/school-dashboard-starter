@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma";
-import authRoutes from "../modules/auth/auth.routes.js";
-import { authenticate } from "../middlewares/auth.middleware.js";
-import { authorize } from "../middlewares/authorize.js";
-import userRoutes from "../modules/users/user.routes.js";
-import classRoutes from "../modules/classes/class.routes.js";
+import authRoutes from "../modules/auth/auth.routes";
+import { authenticate } from "../middlewares/auth.middleware";
+import { authorize } from "../middlewares/authorize";
+import userRoutes from "../modules/users/user.routes";
+import classRoutes from "../modules/schoolClass/class.routes"
+import studentRoutes from "../modules/students/student.routes"
 
 const router = Router();
 
@@ -56,6 +57,9 @@ router.get("/health", async (_req, res) => {
     });
   }
 });
-router.use("/classes", classRoutes);
+
+router.use("/class", classRoutes);
+
+router.use("/student", studentRoutes)
 
 export default router;

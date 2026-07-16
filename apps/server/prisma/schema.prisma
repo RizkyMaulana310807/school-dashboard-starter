@@ -1,73 +1,73 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  isActive  Boolean  @default(true)
-  roles     Role[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  student   Student?
+    id        String   @id @default(cuid())
+    name      String
+    email     String   @unique
+    password  String
+    isActive  Boolean  @default(true)
+    roles     Role[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    student   Student?
 }
 
 model Role {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  description String?
-  users       User[]
-  permissions Permission[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+    id          String       @id @default(cuid())
+    name        String       @unique
+    description String?
+    users       User[]
+    permissions Permission[]
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
 }
 
 model Permission {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String?
-  roles       Role[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+    id          String   @id @default(cuid())
+    name        String   @unique
+    description String?
+    roles       Role[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 model SchoolClass {
-  id           String   @id @default(cuid())
-  name         String   @unique
-  description  String?
-  grade        Int
-  academicYear String?
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  student      Student? @relation(fields: [studentId], references: [id])
-  studentId    String?
+    id           String    @id @default(cuid())
+    name         String    @unique
+    description  String?
+    grade        Int
+    academicYear String?
+    isActive     Boolean   @default(true)
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    student      Student[]
 }
 
 model Student {
-  id        String    @id @default(uuid())
-  name      String
-  gender    Gender // Diubah dari Gender[] menjadi Gender tunggal
-  birthDate DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+    id        String    @id @default(cuid())
+    name      String
+    gender    Gender // Diubah dari Gender[] menjadi Gender tunggal
+    birthDate DateTime?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
 
-  // Relasi 1:1 ke User (Gunakan tipe data User tunggal, bukan User[])
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // Relasi 1:1 ke User (Gunakan tipe data User tunggal, bukan User[])
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Relasi Many-to-Many ke SchoolClass (Mahasiswa bisa punya banyak kelas/riwayat kelas)
-  classes SchoolClass[]
+    // Relasi Many-to-Many ke SchoolClass (Mahasiswa bisa punya banyak kelas/riwayat kelas)
+    schoolClassId String
+    schoolClass   SchoolClass @relation(fields: [schoolClassId], references: [id])
 }
 
 enum Gender {
-  MALE
-  FEMALE
+    MALE
+    FEMALE
 }

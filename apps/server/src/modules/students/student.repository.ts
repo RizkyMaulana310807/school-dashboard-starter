@@ -37,10 +37,11 @@ export class StudentRepository {
             email: true,
           },
         },
-        classes: {
-          take: 1,
+        schoolClass: {
           select: {
+            id: true,
             name: true,
+            grade: true,
           },
         },
       },
@@ -59,14 +60,27 @@ export class StudentRepository {
                 },
               },
               {
-                email: {
-                  contains: search,
-                  mode: "insensitive",
+                user: {
+                  email: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
                 },
               },
             ],
           }
         : undefined,
+    });
+  }
+
+  async findByUserId(userId: string) {
+    return prisma.student.findUnique({
+      where: {
+        userId,
+      },
+      select: {
+        id: true,
+      },
     });
   }
 
@@ -77,7 +91,7 @@ export class StudentRepository {
       },
       include: {
         user: true,
-        classes: true,
+        schoolClass: true,
       },
     });
   }
@@ -91,8 +105,10 @@ export class StudentRepository {
         user: {
           connect: { id: data.userId },
         },
-        classes: {
-          connect: data.classIds?.map((id) => ({ id })),
+        schoolClass: {
+          connect: {
+            id: data.schoolClassId,
+          },
         },
       },
     });
@@ -105,11 +121,25 @@ export class StudentRepository {
         name: data.name,
         gender: data.gender,
         birthDate: data.birthDate,
-        classes: data.classIds
+        schoolClass: data.schoolClassId
           ? {
-              set: data.classIds.map((id) => ({ id })),
+              connect: {
+                id: data.schoolClassId,
+              },
             }
           : undefined,
+      },
+      include: {
+        user: {
+          select: {
+            email: true,
+          },
+        },
+        schoolClass: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
   }

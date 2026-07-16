@@ -1,0 +1,17 @@
+# 1. BLOKIR FOLDER DEPENDENSI & BUILD GLOBAL (Wajib agar AI tidak lag)
+**/node_modules/**
+**/node_modules
+**/.vite/**
+**/.next/**
+**/dist/**
+**/build/**
+**/.git/**
+
+# 2. BLOKIR FOLDER DI LUAR APPS/SERVER (Jika ada folder lain di root)
+# Contoh jika kamu punya folder dokumentasi atau docker di root yang tidak penting:
+# /docker/
+# /docs/
+
+# 3. KECUALIKAN DATABASE SQLITE LOKAL (Jika file .db kamu ada di dalam project)
+*.db
+*.db-journal

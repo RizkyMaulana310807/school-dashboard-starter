@@ -5,7 +5,7 @@ import { PaginationQuery } from "../../utils/pagination";
 import { createPaginationMeta } from "../../utils/pagination/PaginatedResponse";
 import { toStudentResponse, toStudentsResponse } from "./student.mapper";
 import { STUDENT_MESSAGES } from "../../constant/messages";
-import { toClassResponse } from "../classes/class.mapper";
+import { toClassResponse } from "../schoolClass/class.mapper";
 import { measureMemory } from "node:vm";
 
 export class StudentService {
@@ -16,14 +16,14 @@ export class StudentService {
     const total = await this.repository.count(query.search);
 
     return {
-      data: toStudentResponse(students),
+      data: toStudentsResponse(students),
       meta: createPaginationMeta(query.page, query.limit, total),
     };
   }
+
   async findById(id: string) {
     const student = await this.repository.findById(id);
     if (!student) throw new NotFoundError(STUDENT_MESSAGES.NOT_FOUND);
-
     return toStudentResponse(student);
   }
 

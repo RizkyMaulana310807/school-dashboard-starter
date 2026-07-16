@@ -3,14 +3,14 @@ export interface CreateStudentDto {
   gender: "MALE" | "FEMALE";
   birthDate?: string | Date; // Bisa menerima string ISO ("2006-08-15") atau objek Date
   userId: string; // ID dari tabel User yang sudah dibuat sebelumnya
-  classIds?: string[]; // Opsional: Langsung menghubungkan ke kelas saat dibuat
+  schoolClassId: string; // Opsional: Langsung menghubungkan ke kelas saat dibuat
 }
 
 export interface UpdateStudentDto {
   name?: string;
   gender?: "MALE" | "FEMALE";
   birthDate?: string | Date;
-  classIds?: string[]; // Untuk memperbarui daftar kelas mahasiswa
+  schoolClassId: string;
 }
 
 export interface StudentQueryDto {
@@ -37,7 +37,7 @@ export interface StudentResponseDto {
   };
 
   // Membawa daftar kelas yang diikuti mahasiswa saat ini
-  classes: {
+  class: {
     id: string;
     name: string;
     academicYear: string;
