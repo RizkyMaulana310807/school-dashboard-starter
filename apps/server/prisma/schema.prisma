@@ -17,6 +17,7 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     student   Student?
+    teacher   Teacher?
 }
 
 model Role {
@@ -48,26 +49,81 @@ model SchoolClass {
     createdAt    DateTime  @default(now())
     updatedAt    DateTime  @updatedAt
     student      Student[]
+
+    // PERBAIKAN DI SINI: Diubah menjadi array agar bisa Many-to-Many implisit dengan Teacher
+    teachers Teacher[]
+
+    attendanceSessions AttendanceSession[]
 }
 
 model Student {
-    id        String    @id @default(cuid())
-    name      String
-    gender    Gender // Diubah dari Gender[] menjadi Gender tunggal
-    birthDate DateTime?
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-
-    // Relasi 1:1 ke User (Gunakan tipe data User tunggal, bukan User[])
-    userId String @unique
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    // Relasi Many-to-Many ke SchoolClass (Mahasiswa bisa punya banyak kelas/riwayat kelas)
+    id            String       @id @default(cuid())
+    name          String
+    gender        Gender
+    birthDate     DateTime?
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    userId        String       @unique
+    user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     schoolClassId String
-    schoolClass   SchoolClass @relation(fields: [schoolClassId], references: [id])
+    schoolClass   SchoolClass  @relation(fields: [schoolClassId], references: [id])
+    attendances   Attendance[]
+}
+
+model Teacher {
+    id        String   @id @default(cuid())
+    name      String
+    gender    Gender
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId    String   @unique
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    // Terhubung Many-to-Many dengan SchoolClass secara otomatis lewat Prisma
+    classes SchoolClass[]
+
+    attendanceSessions AttendanceSession[]
+}
+
+model AttendanceSession {
+    id            String       @id @default(cuid())
+    title         String
+    date          DateTime     @default(now())
+    startTime     DateTime?
+    endTime       DateTime?
+    schoolClassId String
+    schoolClass   SchoolClass  @relation(fields: [schoolClassId], references: [id], onDelete: Cascade)
+    teacherId     String
+    teacher       Teacher      @relation(fields: [teacherId], references: [id])
+    records       Attendance[]
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+}
+
+model Attendance {
+    id                  String            @id @default(cuid())
+    attendanceSessionId String
+    session             AttendanceSession @relation(fields: [attendanceSessionId], references: [id], onDelete: Cascade)
+    studentId           String
+    student             Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    status              AttendanceStatus  @default(PRESENT)
+    recordedAt          DateTime?
+    verificationData    Json?
+    notes               String?
+    createdAt           DateTime          @default(now())
+    updatedAt           DateTime          @updatedAt
+
+    @@unique([attendanceSessionId, studentId])
 }
 
 enum Gender {
     MALE
     FEMALE
+}
+
+enum AttendanceStatus {
+    PRESENT
+    LATE
+    EXCUSED
+    ABSENT
 }
